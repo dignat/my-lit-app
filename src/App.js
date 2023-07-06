@@ -1,22 +1,30 @@
-import logo from './logo.svg';
+import React from 'react';
+import {useRef, useEffect } from 'react';
+import './litelements/pushbutton-element'
 import './App.css';
 
 function App() {
+  const redButtonRef = useRef();
+
+  const clickHandler = () => {
+    console.log('red button clicked')
+  }
+  useEffect(() => {
+    let redButton = null;
+    if (redButtonRef.current) {
+      redButtonRef.current.addEventListener('button-press', clickHandler)
+      redButton = redButtonRef.current;
+    }
+    return () => {
+      if (redButton) {
+        redButton.removeEventListener('button-press', clickHandler)
+      }
+    }
+  })
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <wow-button color="red" ref={redButtonRef}/>
       </header>
     </div>
   );
